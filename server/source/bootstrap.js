@@ -11,5 +11,8 @@
             var name = file.substr(0, file.indexOf('.'));
             require('./providers/' + name)(app);
         });
+
+        // Load middleware
+        require('./middleware/kernel')(app);
     }
 })();

@@ -11,5 +11,5 @@
             var name = file.substr(0, file.indexOf('.'));
             require('../routes/' + name)(app);
         });
-    }
+    };
 })();

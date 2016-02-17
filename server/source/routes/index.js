@@ -13,5 +13,5 @@
 
         app.get('/', HomeController.index);
 
-    }
+    };
 })();
