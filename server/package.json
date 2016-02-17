@@ -1,0 +1,11 @@
+{
+  "name": "marketing-experiments-app",
+  "version": "1.0.0",
+  "description": "Post, vote, and comment on marketing experiments.",
+  "author": "Kevin Lee",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.13.4",
+    "mongoose": "~4.4.4"
+  }
+}
