@@ -14,10 +14,8 @@ var LINE_HEIGHT = 20;
  */
 
 module.exports = {
-    log: function (message, force) {
-        if (window.debugMode || force) {
-            return console.log(message);
-        }
+    log: function (message) {
+        return console.log(message);
     },
     getBase64Image: function (img) {
         var canvas, ctx, dataURL;
@@ -182,6 +180,14 @@ module.exports = {
             return;
         }
         return sel.getRangeAt(0);
+    },
+    extend: function (base, extension) {
+        var __hasProp = {}.hasOwnProperty;
+
+        for (var key in extension) {
+            if (__hasProp.call(extension, key)) base[key] = extension[key];
+        }
+        return base;
     }
 }
 
@@ -205,7 +211,7 @@ var is_caret_at_end_of_node = function (node, range) {
     post_range.setStart(range.endContainer, range.endOffset);
     return post_range.toString().trim().length === 0;
 };
-
+/*
 $.fn.editableCaretRange = function () {
     if (!this.editableIsCaret()) {
         return;
@@ -290,8 +296,4 @@ $.fn.editableCaretOnLastLine = function () {
     }
     ebtm = this[0].getBoundingClientRect().bottom;
     return cbtm > ebtm - LINE_HEIGHT;
-};
-
-$.fn.exists = function () {
-    return this.length > 0;
-};
+};*/

@@ -2,89 +2,86 @@
     'use strict';
 
     /**
+     * Module dependencies.
+     */
+    var $ = require('jquery');
+
+    /**
      * Create a Menu instance.
      *
      * @return {Menu}
      * @api public
      */
     module.exports = function () {
-        return Object.create(Editor());
+        return Object.create(Menu.apply(null, arguments));
     };
 
     var Menu = function () {
         /**
          * @private
          */
-        var init = function (options) {
-            if (options == null) {
-                options = {};
-            }
-            if (options.el) {
-                this.el = options.el;
-            }
-            this._ensureElement();
-            this._ensureEvents();
-        }
-
-        /**
-         * Public View object
-         * @public
-         */
-        var view = {
-            events: function () {
-                return;
+        var defaults = {
+            buttons: ['bold', 'italic', 'h2', 'h3', 'h4', 'blockquote', 'createlink']
+        };
+        var properties = {};
+        var components = {};
+        var reg = {
+            commands: {
+                block: /^(?:p|h[1-6]|blockquote|pre)$/,
+                inline: /^(?:bold|italic|underline|insertorderedlist|insertunorderedlist|indent|outdent)$/,
+                source: /^(?:insertimage|createlink|unlink)$/,
+                insert: /^(?:inserthorizontalrule|insert)$/,
+                wrap: /^(?:code)$/
             },
-            render: function () {
-                return this;
-            },
-            remove: function () {
-                this._removeElement();
-                //this.stopListening();
-                return this;
-            },
-            _removeElement: function () {
-                return this.$el.remove();
-            },
-            setElement: function (element) {
-                this._setElement(element);
-                return this;
-            },
-            setEvent: function (opts) {
-                if (!_.isEmpty(opts)) {
-                    return _.each(opts, (function (_this) {
-                        return function (f, key) {
-                            var element, func, key_arr;
-                            key_arr = key.split(" ");
-                            if (_.isFunction(f)) {
-                                func = f;
-                            } else if (_.isString(f)) {
-                                func = _this[f];
-                            } else {
-                                throw "error event needs a function or string";
-                            }
-                            element = key_arr.length > 1 ? key_arr.splice(1, 3).join(" ") : null;
-                            return $(_this.el).on(key_arr[0], element, _.bind(func, _this));
-                        };
-                    })(this));
-                }
-            },
-            _ensureElement: function () {
-                return this.setElement(_.result(this, 'el'));
-            },
-            _ensureEvents: function () {
-                return this.setEvent(_.result(this, 'events'));
-            },
-            _setElement: function (el) {
-                this.$el = el instanceof $ ? el : $(el);
-                return this.el = this.$el[0];
+            lineBreak: /^(?:blockquote|pre|div|p)$/i,
+            effectNode: /(?:[pubia]|h[1-6]|blockquote|[uo]l|li)/i,
+            str: {
+                whiteSpace: /(^\s+)|(\s+$)/g,
+                mailTo: /^(?!mailto:|.+\/|.+#|.+\?)(.*@.*\..+)$/,
+                http: /^(?!\w+?:\/\/|mailto:|\/|\.\/|\?|#)(.*)$/
             }
         };
 
-        init.apply(view, arguments);
-        return view;
+        var init = function (options) {
+            $.extend(properties, defaults, typeof options === "object" ? options : {});
+
+            if (!(properties.el instanceof $) && typeof properties.el === "string") {
+                properties.el = $(properties.el);
+            }
+            if (!(properties.el instanceof $) || (properties.el instanceof $ && $(properties.el).length == 0)) {
+                console.error('You must specify a valid HTML element to transform into a Menu.');
+                return;
+            }
+
+            render();
+        };
+
+        var render = function () {
+            var html = "<div class='dante-menu-linkinput'><input class='dante-menu-input' placeholder='http://'><div class='dante-menu-button'>x</div></div>";
+            html += "<ul class='dante-menu-buttons'>";
+            $.each(properties.buttons, function (i, item) {
+                html += "<li class='dante-menu-button'><i class=\"dante-icon icon-" + item + "\" data-action=\"" + item + "\"></i></li>";
+            });
+            html += "</ul>";
+
+            $(properties.el).html(html);
+        };
+
+        /**
+         * Public Menu object
+         * @public
+         */
+        var menu = {
+            show: function () {
+
+            }
+        };
+
+        init.apply(menu, arguments);
+        return menu;
     };
 
-    Dante.Editor.Menu = (function (_super) {
+    var old = (function (_super) {
         __extends(Menu, _super);
 
         function Menu() {
@@ -356,6 +353,6 @@
 
         return Menu;
 
-    })(Dante.View);
+    });
 
 })();
