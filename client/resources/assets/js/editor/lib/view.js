@@ -1,7 +1,11 @@
 (function () {
     'use strict';
 
+    /**
+     * Module dependencies.
+     */
     var $ = require('jquery');
+    var Utils = require('./utils');
 
     module.exports = function () {
         return {
@@ -14,7 +18,7 @@
                             throw "error: event needs a function";
                         }
                         element = event_arr.length > 1 ? event_arr.splice(1, 3).join(" ") : null;
-                        return el.on(event_arr[0], element, f.call(_this));
+                        return el.on(event_arr[0], element, Utils.scope(f, _this));
                     }
                 })(this));
             }

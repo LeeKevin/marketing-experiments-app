@@ -5,6 +5,7 @@
      * Module dependencies.
      */
     var $ = require('jquery');
+    var Utils = require('./utils');
 
     /**
      * Create a Menu instance.
@@ -16,7 +17,7 @@
         return Object.create(Menu.apply(null, arguments));
     };
 
-    var Menu = function () {
+    function Menu() {
         /**
          * @private
          */
@@ -53,6 +54,8 @@
                 return;
             }
 
+            this.reg = reg;
+
             render();
         };
 
@@ -64,8 +67,82 @@
             });
             html += "</ul>";
 
-            $(properties.el).html(html);
+            properties.el.html(html);
         };
+
+        var effectNode = function (el, returnAsNodeName) {
+            var nodes;
+            nodes = [];
+            el = el || properties.editor.getElement()[0];
+            while (el !== properties.editor.getElement()[0]) {
+                if (el.nodeName.match(reg.effectNode)) {
+                    nodes.push((returnAsNodeName ? el.nodeName.toLowerCase() : el));
+                }
+                el = el.parentNode;
+            }
+            return nodes;
+        };
+
+        var displayHighlights = function () {
+            var nodes;
+            properties.el.find(".active").removeClass("active");
+            nodes = effectNode(Utils.getNode());
+            return $.each(nodes, function (i, node) {
+                var tag;
+                tag = node.nodeName.toLowerCase();
+                switch (tag) {
+                    case "a":
+                        properties.el.find('input').val($(node).attr("href"));
+                        tag = "createlink";
+                        break;
+                    case "i":
+                        tag = "italic";
+                        break;
+                    case "u":
+                        tag = "underline";
+                        break;
+                    case "b":
+                        tag = "bold";
+                        break;
+                    case "code":
+                        tag = "code";
+                        break;
+                    case "ul":
+                        tag = "insertunorderedlist";
+                        break;
+                    case "ol":
+                        tag = "insertorderedlist";
+                        break;
+                    case "li":
+                        tag = "indent";
+                }
+                if (tag.match(/(?:h[1-6])/i)) {
+                    properties.el.find(".icon-bold, .icon-italic, .icon-blockquote").parent("li").remove();
+                } else if (tag === "indent") {
+                    properties.el.find(".icon-h2, .icon-h3, .icon-h4, .icon-blockquote").parent("li").remove();
+                }
+                return highlight(tag);
+            });
+        };
+
+        var highlight = function (tag) {
+            return $(".icon-" + tag).parent("li").addClass("active");
+        };
+
+        /* Event listeners */
+
+        var closeInput = function () {
+            properties.el.removeClass("dante-menu--linkmode");
+            return false;
+        };
+
+        var events = {
+            //"mousedown li": "handleClick",
+            "click .dante-menu-linkinput .dante-menu-button": closeInput
+            //"keypress input": "handleInputEnter"
+        };
+
+        /* END Event listeners */
 
         /**
          * Public Menu object
@@ -73,7 +150,15 @@
          */
         var menu = {
             show: function () {
-
+                properties.el.addClass("dante-menu--active");
+                closeInput();
+                return displayHighlights();
+            },
+            hide: function () {
+                return properties.el.removeClass("dante-menu--active");
+            },
+            getElement: function () {
+                return properties.el;
             }
         };
 

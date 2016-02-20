@@ -1,6 +1,11 @@
 'use strict';
 
 /**
+ * Module dependencies.
+ */
+var $ = require('jquery');
+
+/**
  * Module variables.
  * @private
  */
@@ -162,9 +167,52 @@ module.exports = {
         }
         return caretPos;
     },
+    getCharacterPrecedingCaret: function (node) {
+        var precedingChar, precedingRange, range, sel;
+        precedingChar = "";
+        sel = void 0;
+        range = void 0;
+        precedingRange = void 0;
+        if (window.getSelection) {
+            sel = window.getSelection();
+            if (sel.rangeCount > 0) {
+                range = sel.getRangeAt(0).cloneRange();
+                range.collapse(true);
+                range.setStart(node, 0);
+                precedingChar = range.toString().slice(0);
+            }
+        } else if ((sel = document.selection) && sel.type !== "Control") {
+            range = sel.createRange();
+            precedingRange = range.duplicate();
+            precedingRange.setEndPoint("EndToStart", range);
+            precedingChar = precedingRange.text.slice(0);
+        }
+        return precedingChar;
+    },
+    isLastChar: function (node) {
+        return $(node).text().trim().length === this.getCharacterPrecedingCaret(node).trim().length;
+    },
+    isFirstChar: function (node) {
+        return this.getCharacterPrecedingCaret(node).trim().length === 0;
+    },
+    setRangeAtText: function (element, pos) {
+        var node, range, sel;
+        if (pos == null) {
+            pos = 0;
+        }
+        range = document.createRange();
+        sel = window.getSelection();
+        node = element.firstChild;
+        range.setStart(node, 0);
+        range.setEnd(node, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return element.focus();
+    },
     isElementInViewport: function (el) {
         var rect;
-        if (typeof jQuery === "function" && el instanceof jQuery) {
+        if (typeof $ === "function" && el instanceof $) {
             el = el[0];
         }
         rect = el.getBoundingClientRect();
@@ -188,6 +236,64 @@ module.exports = {
             if (__hasProp.call(extension, key)) base[key] = extension[key];
         }
         return base;
+    },
+    /**
+     * Passes a function without execution (i.e. by reference) and sets the this value.
+     * This redefines the scope of the function without calling it.
+     *
+     * @param func
+     * @param thisArg
+     * @returns {Function}
+     */
+    scope: function (func, thisArg) {
+        return function () {
+            return func.apply(thisArg, arguments);
+        };
+    },
+    killWhiteSpace: function (str) {
+        return str.replace(/\s/g, '');
+    },
+    /**
+     *
+     * @param element - jQuery element
+     * @returns {boolean}
+     */
+    editableCaretOnLastLine: function (element) {
+        var cbtm, ebtm, range;
+        range = this.editableRange();
+        if (!range) {
+            return false;
+        }
+        if (is_caret_at_end_of_node(element[0], range)) {
+            return true;
+        } else if (is_caret_at_start_of_node(element[0], range)) {
+            cbtm = element[0].getBoundingClientRect().top + LINE_HEIGHT;
+        } else {
+            cbtm = range.getClientRects()[0].bottom;
+        }
+        ebtm = element[0].getBoundingClientRect().bottom;
+        return cbtm > ebtm - LINE_HEIGHT;
+    },
+    /**
+     *
+     * @param element - jQuery element
+     * @returns {boolean}
+     */
+    editableCaretOnFirstLine: function (element) {
+        var ctop, etop, range;
+        range = this.editableRange();
+        if (!range) {
+            return false;
+        }
+        if (is_caret_at_start_of_node(element[0], range)) {
+            return true;
+        } else if (is_caret_at_end_of_node(element[0], range)) {
+            ctop = element[0].getBoundingClientRect().bottom - LINE_HEIGHT;
+        } else {
+            ctop = range.getClientRects()[0].top;
+        }
+        etop = element[0].getBoundingClientRect().top;
+        return ctop < etop + LINE_HEIGHT;
     }
 }
 
@@ -212,88 +318,56 @@ var is_caret_at_end_of_node = function (node, range) {
     return post_range.toString().trim().length === 0;
 };
 /*
-$.fn.editableCaretRange = function () {
-    if (!this.editableIsCaret()) {
-        return;
-    }
-    return this.editableRange();
-};
+ $.fn.editableCaretRange = function () {
+ if (!this.editableIsCaret()) {
+ return;
+ }
+ return this.editableRange();
+ };
 
-$.fn.editableSetRange = function (range) {
-    var sel;
-    sel = window.getSelection();
-    if (sel.rangeCount > 0) {
-        sel.removeAllRanges();
-    }
-    return sel.addRange(range);
-};
+ $.fn.editableSetRange = function (range) {
+ var sel;
+ sel = window.getSelection();
+ if (sel.rangeCount > 0) {
+ sel.removeAllRanges();
+ }
+ return sel.addRange(range);
+ };
 
-$.fn.editableFocus = function (at_start) {
-    var range, sel;
-    if (at_start == null) {
-        at_start = true;
-    }
-    if (!this.attr('contenteditable')) {
-        return;
-    }
-    sel = window.getSelection();
-    if (sel.rangeCount > 0) {
-        sel.removeAllRanges();
-    }
-    range = document.createRange();
-    range.selectNodeContents(this[0]);
-    range.collapse(at_start);
-    return sel.addRange(range);
-};
+ $.fn.editableFocus = function (at_start) {
+ var range, sel;
+ if (at_start == null) {
+ at_start = true;
+ }
+ if (!this.attr('contenteditable')) {
+ return;
+ }
+ sel = window.getSelection();
+ if (sel.rangeCount > 0) {
+ sel.removeAllRanges();
+ }
+ range = document.createRange();
+ range.selectNodeContents(this[0]);
+ range.collapse(at_start);
+ return sel.addRange(range);
+ };
 
-$.fn.editableCaretAtStart = function () {
-    var range;
-    range = this.editableRange();
-    if (!range) {
-        return false;
-    }
-    return is_caret_at_start_of_node(this[0], range);
-};
+ $.fn.editableCaretAtStart = function () {
+ var range;
+ range = this.editableRange();
+ if (!range) {
+ return false;
+ }
+ return is_caret_at_start_of_node(this[0], range);
+ };
 
-$.fn.editableCaretAtEnd = function () {
-    var range;
-    range = this.editableRange();
-    if (!range) {
-        return false;
-    }
-    return is_caret_at_end_of_node(this[0], range);
-};
+ $.fn.editableCaretAtEnd = function () {
+ var range;
+ range = this.editableRange();
+ if (!range) {
+ return false;
+ }
+ return is_caret_at_end_of_node(this[0], range);
+ };
 
-$.fn.editableCaretOnFirstLine = function () {
-    var ctop, etop, range;
-    range = this.editableRange();
-    if (!range) {
-        return false;
-    }
-    if (is_caret_at_start_of_node(this[0], range)) {
-        return true;
-    } else if (is_caret_at_end_of_node(this[0], range)) {
-        ctop = this[0].getBoundingClientRect().bottom - LINE_HEIGHT;
-    } else {
-        ctop = range.getClientRects()[0].top;
-    }
-    etop = this[0].getBoundingClientRect().top;
-    return ctop < etop + LINE_HEIGHT;
-};
-
-$.fn.editableCaretOnLastLine = function () {
-    var cbtm, ebtm, range;
-    range = this.editableRange();
-    if (!range) {
-        return false;
-    }
-    if (is_caret_at_end_of_node(this[0], range)) {
-        return true;
-    } else if (is_caret_at_start_of_node(this[0], range)) {
-        cbtm = this[0].getBoundingClientRect().top + LINE_HEIGHT;
-    } else {
-        cbtm = range.getClientRects()[0].bottom;
-    }
-    ebtm = this[0].getBoundingClientRect().bottom;
-    return cbtm > ebtm - LINE_HEIGHT;
-};*/
+ */
