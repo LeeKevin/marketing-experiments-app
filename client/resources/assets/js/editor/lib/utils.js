@@ -75,6 +75,13 @@ module.exports = {
             }
         }
     },
+    getSelection: function () {
+        if (window.getSelection) {
+            return window.getSelection();
+        } else if (document.selection && document.selection.type !== "Control") {
+            return document.selection;
+        }
+    },
     getNode: function () {
         var container, range, sel;
         range = void 0;
@@ -107,6 +114,36 @@ module.exports = {
                 }
             }
         }
+    },
+    getEditorNode: function (root) {
+        var node, selection, range;
+        if (root instanceof $) root = root[0];
+        selection = this.getSelection();
+        if (selection.rangeCount < 1) {
+            return;
+        }
+        range = selection.getRangeAt(0);
+        node = range.commonAncestorContainer;
+        if (!node || node === root) {
+            return null;
+        }
+        while (node && (node.nodeType !== 1 || !$(node).hasClass("graf")) && (node.parentNode !== root)) {
+            node = node.parentNode;
+        }
+        if (!$(node).hasClass("graf--li")) {
+            while (node && (node.parentNode !== root)) {
+                node = node.parentNode;
+            }
+        }
+        if (root && root.contains(node)) {
+            return node;
+        } else {
+            return null;
+        }
+    },
+    setUniqueElementName: function (element) {
+        if (!(element instanceof $)) element = $(element);
+        return element.attr("name", this.generateUniqueName());
     },
     getSelectionDimensions: function () {
         var height, left, range, rect, sel, top, width;

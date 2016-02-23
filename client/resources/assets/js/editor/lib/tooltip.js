@@ -5,6 +5,8 @@
      * Module dependencies.
      */
     var $ = require('jquery');
+    var Utils = require('./utils');
+    var View = require('./view');
 
     /**
      * Create a Menu instance.
@@ -13,7 +15,7 @@
      * @api public
      */
     module.exports = function () {
-        return Object.create(Tooltip.apply(null, arguments));
+        return Tooltip.apply(null, arguments);
     };
 
     function Tooltip() {
@@ -23,7 +25,7 @@
         var properties = {};
         var components = {};
 
-        var init = function (options) {
+        var prepareProperties = function (options) {
             $.extend(properties, typeof options === "object" ? options : {});
 
             if (!(properties.el instanceof $) && typeof properties.el === "string") {
@@ -34,19 +36,29 @@
                 return;
             }
         };
+
+        var init = function () {
+
+        };
+
+        /* Event listeners */
+
+        var events = {
+        };
+
+        /* END Event listeners */
+
         /**
          * Public Tooltip object
          * @public
          */
-        var tooltip = {
+        prepareProperties.apply(null, arguments);
+        var tooltip = Utils.extend(Object.create(View(properties, events)), {
             show: function () {
 
             },
             hide: function () {
 
-            },
-            getElement: function () {
-                return properties.el;
             },
             move: function (coordinates) {
 
@@ -54,9 +66,9 @@
             cleanOperationClasses: function ($node) {
 
             }
-        };
+        });
 
-        init.apply(tooltip, arguments);
+        init.call(tooltip);
         return tooltip;
     }
 })();
