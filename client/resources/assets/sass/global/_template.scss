@@ -6,7 +6,9 @@ body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.428571429;
-  color: #eee;
   margin: 0;
+}
+
+[contenteditable] {
+  outline: none;
 }

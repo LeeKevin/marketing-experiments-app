@@ -1,10 +1,9 @@
 (function () {
     'use strict';
 
-    var editor = require('./editor/editor');
+    var MediumEditor = require('medium-editor');
 
-    editor({
-        el: 'section.main'
+    var editor = new MediumEditor('.editor', {
+        buttonLabels: 'fontawesome'
     });
-
 })();

@@ -1,8 +1,9 @@
 //Vendor
 @import "node_modules/font-awesome/scss/font-awesome";
+@import "node_modules/medium-editor/src/sass/medium-editor";
+@import "node_modules/medium-editor/src/sass/themes/default";
 
 //Local
 @import "global/variables";
 @import "global/mixins";
 @import "global/loader";
-@import "dante";
