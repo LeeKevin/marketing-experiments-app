@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * Utility module for helper/miscellaneous methods.
+     */
+
     module.exports = {
         iterateObject: function (obj, callback) {
             for (var key in obj) {
