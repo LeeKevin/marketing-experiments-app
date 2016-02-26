@@ -9,6 +9,7 @@
     "mongoose": "~4.4.4",
     "method-override": "~2.3.5",
     "body-parser": "~1.15.0",
-    "bcrypt": "~0.8.5"
+    "bcrypt": "~0.8.5",
+    "jsonwebtoken": "~5.7.0"
   }
 }

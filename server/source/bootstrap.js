@@ -19,7 +19,7 @@
 
         // Load error handlers
         app.use(function(req, res, next){
-            next(new NotFoundError());
+            return next(new NotFoundError());
         });
         app.use(errorHandler);
     };

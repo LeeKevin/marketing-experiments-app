@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    var Route = require('express').Router();
-
-    var UsersController = require('../controllers/UsersController');
+    var Route = require('express').Router(),
+        UsersController = require('../controllers/UsersController'),
+        VerifyToken = require('../middleware/VerifyToken');
 
     module.exports = function (app) {
 
@@ -28,6 +28,7 @@
             UsersController.delete(req, res, id, next);
         });
 
+        app.use(VerifyToken);
         app.use('/api/users', Route);
     };
 })();

@@ -29,7 +29,8 @@
             type: String,
             trim: true,
             unique: true,
-            required: 'Username is required'
+            required: 'Username is required',
+            match: [/^[A-Za-z0-9_-]*$/, 'Username must only contain alphanumeric characters, underscores (_), and dashes (-).']
         },
         email: {
             type: String,
@@ -43,7 +44,7 @@
 
     var methods = {
         //Use to test passwords against the actual hashed password
-        comparePassword: function (candidatePassword, cb) {
+        checkPassword: function (candidatePassword, cb) {
             bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
                 if (err) return cb(err);
                 cb(null, isMatch);
@@ -66,7 +67,7 @@
 
                 // override the cleartext password with the hashed one
                 user.password = hash;
-                next();
+                return next();
             });
         });
     });
