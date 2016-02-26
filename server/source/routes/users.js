@@ -15,17 +15,17 @@
 
         Route.get('/', UsersController.index);
         Route.post('/', UsersController.create);
-        Route.get('/:id', function (req, res) {
+        Route.get('/:id', function (req, res, next) {
             var id = req.params.id;
-            UsersController.show(req, res, id);
+            UsersController.show(req, res, id, next);
         });
-        Route.put('/:id', function (req, res) {
+        Route.put('/:id', function (req, res, next) {
             var id = req.params.id;
-            UsersController.update(req, res, id);
+            UsersController.update(req, res, id, next);
         });
-        Route.delete('/:id', function (req, res) {
+        Route.delete('/:id', function (req, res, next) {
             var id = req.params.id;
-            UsersController.delete(req, res, id);
+            UsersController.delete(req, res, id, next);
         });
 
         app.use('/api/users', Route);

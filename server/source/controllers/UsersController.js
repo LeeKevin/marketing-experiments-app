@@ -42,7 +42,7 @@
                 });
             });
         },
-        show: function (req, res, id) {
+        show: function (req, res, id, next) {
             User.findOne({'_id': id}, function (err, user) {
                 if (err) {
                     return next(err);
@@ -56,11 +56,40 @@
                 });
             });
         },
-        update: function (req, res, id) {
-            res.send('Hello world!');
+        update: function (req, res, id, next) {
+            User.findOne({'_id': id}, function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+
+                if (req.body['firstname']) user.name.first = req.body['firstname'];
+                if (req.body['lastname']) user.name.last = req.body['lastname'];
+                if (req.body['username']) user.username = req.body['username'];
+                if (req.body['password']) user.password = req.body['password'];
+                if (req.body['email']) user.email = req.body['email'];
+
+                user.save(function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    res.status(200).json({
+                        message: 'User updated!',
+                        user_id: user.id
+                    });
+                });
+            });
         },
-        delete: function (req, res, id) {
-            res.send('Hello world!');
+        delete: function (req, res, id, next) {
+            User.remove({'_id': id}, function (err) {
+                if (err) {
+                    return next(err);
+                }
+
+                res.status(200).json({
+                    message: 'User deleted!'
+                });
+            });
         }
     };
 
