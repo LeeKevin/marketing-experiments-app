@@ -9,11 +9,12 @@
         config = require('./config/app'),
         database = require('./config/database'),
         mongoose = require('mongoose'),
-        app = express();
+        app = express(),
+        db;
 
     mongoose.connect('mongodb://' + database["host"] + (database["port"] ? ':' + database["port"] : '') + '/' + database["db"]);
 
-    var db = mongoose.connection;
+    db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function () {
         app.set('auth', config['auth']);

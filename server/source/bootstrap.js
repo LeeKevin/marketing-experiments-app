@@ -18,7 +18,7 @@
         });
 
         // Load error handlers
-        app.use(function(req, res, next){
+        app.use(function (req, res, next) {
             return next(new NotFoundError());
         });
         app.use(errorHandler);

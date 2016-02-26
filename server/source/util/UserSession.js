@@ -1,11 +1,6 @@
 (function () {
     'use strict';
 
-    /**
-     * This is the default schema/model definition for a User.
-     * Feel free to modify it!
-     */
-
     var mongoose = require('mongoose'),
         config = require('../../config/app')['auth'],
         expiresIn = config['options']['expiresIn'] || 0,
