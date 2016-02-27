@@ -47,6 +47,8 @@
         User.findOne({'username': credentials.username}, function (err, user) {
             if (err) {
                 return next(err);
+            } else if (!user) {
+                return next(new InvalidCredentialsError());
             }
 
             user.checkPassword(credentials.password, function (err, valid) {

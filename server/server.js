@@ -9,6 +9,7 @@
         config = require('./config/app'),
         database = require('./config/database'),
         mongoose = require('mongoose'),
+        Grid = require('gridfs-stream'),
         app = express(),
         db;
 
@@ -17,6 +18,8 @@
     db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function () {
+        Grid.mongo = mongoose.mongo;
+        app.set('gridfs', Grid(db.db));
         app.set('auth', config['auth']);
 
         require("./source/bootstrap")(app);

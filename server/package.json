@@ -10,6 +10,8 @@
     "method-override": "~2.3.5",
     "body-parser": "~1.15.0",
     "bcrypt": "~0.8.5",
-    "jsonwebtoken": "~5.7.0"
+    "jsonwebtoken": "~5.7.0",
+    "gridfs-stream": "~1.1.1",
+    "string-to-stream": "~1.0.1"
   }
 }

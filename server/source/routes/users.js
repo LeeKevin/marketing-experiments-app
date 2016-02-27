@@ -28,7 +28,7 @@
             UsersController.delete(req, res, id, next);
         });
 
-        app.use(VerifyToken);
+        Route.use(VerifyToken);
         app.use('/api/users', Route);
     };
 })();
