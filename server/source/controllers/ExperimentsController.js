@@ -5,8 +5,41 @@
         ExperimentRepository = require('../repositories/ExperimentRepository');
 
     var ExperimentsController = {
+        /**
+         * Retrieve a list of experiments. The request query is passed in as search parameters.
+         *
+         * @param req
+         * @param res
+         * @param next
+         */
         index: function (req, res, next) {
+            ExperimentRepository.getExperiments(req.query, function (err, experiments) {
+                if (err) {
+                    return next(err);
+                }
 
+                var response = [];
+                for (var i = 0, experiment = experiments[i]; i < experiments.length; i++) {
+                    response.push({
+                        experiment_id: experiment.id,
+                        title: experiment.title,
+                        metric: experiment.metric,
+                        goal: experiment.goal,
+                        result: experiment.result,
+                        author: {
+                            user_id: experiment.author.id,
+                            name: experiment.author.name,
+                            username: experiment.author.username
+                        },
+                        content: {
+                            id: experiment.file_id,
+                            url: req.originalUrl + 'content'
+                        }
+                    });
+                }
+
+                res.status(200).json(response);
+            });
         },
         /**
          * Create or update an existing Experiment.
@@ -49,11 +82,57 @@
                 ExperimentRepository.saveExperiment(parameters, callback);
             }
         },
-        show: function (req, res, next) {
+        /**
+         * Retrieve experiment details.
+         * The content of the experiment will contain the id of the file and the url to read the file.
+         *
+         * @param req
+         * @param res
+         * @param id
+         * @param next
+         */
+        show: function (req, res, id, next) {
+            ExperimentRepository.getExperiment(id, function (err, experiment) {
+                if (err) {
+                    return next(err);
+                }
 
+                res.status(200).json({
+                    experiment_id: experiment.id,
+                    title: experiment.title,
+                    metric: experiment.metric,
+                    goal: experiment.goal,
+                    result: experiment.result,
+                    author: {
+                        user_id: experiment.author.id,
+                        name: experiment.author.name,
+                        username: experiment.author.username
+                    },
+                    content: {
+                        id: experiment.file_id,
+                        url: req.originalUrl + 'content'
+                    }
+                });
+            });
         },
-        delete: function (req, res, next) {
+        /**
+         * Delete an experiment.
+         *
+         * @param req
+         * @param res
+         * @param id
+         * @param next
+         */
+        delete: function (req, res, id, next) {
+            ExperimentRepository.deleteExperiment(id, function (err) {
+                if (err) {
+                    return next(err);
+                }
 
+                res.status(200).json({
+                    message: 'Experiment deleted!'
+                });
+            });
         }
     };
 

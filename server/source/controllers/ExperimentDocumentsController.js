@@ -49,6 +49,7 @@
                     return next(err);
                 }
 
+                res.setHeader('Content-Type', 'text/html');
                 ExperimentRepository.getExperimentDocument(experiment.file_id, res);
             });
         }
