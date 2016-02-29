@@ -6,6 +6,7 @@
         VerifyToken = require('../middleware/VerifyToken');
 
     module.exports = function (app) {
+        Route.use(VerifyToken);
 
         /**
          * Define routes here. You can create other files in this directory
@@ -28,7 +29,6 @@
             UsersController.delete(req, res, id, next);
         });
 
-        Route.use(VerifyToken);
         app.use('/api/users', Route);
     };
 })();

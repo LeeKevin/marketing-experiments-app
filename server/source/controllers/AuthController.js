@@ -14,7 +14,7 @@
             config = req.app.get('auth');
             options = config['options'] || {};
             // create a token
-            token = JWT.sign(user, config['secret'], config['options']);
+            token = JWT.sign({_id: user.id}, config['secret'], config['options']);
             UserSession.store(token);
 
             returnObj = {

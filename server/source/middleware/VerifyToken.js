@@ -30,13 +30,19 @@
                 return next(new InvalidCredentialsError());
             }
 
-            JWT.verify(token, config['secret'], function (err, user) {
+            JWT.verify(token, config['secret'], function (err, userData) {
                 if (err) {
                     return next(new GenericError('Authentication Error', 500, 'There was an error verifying the provided token.'));
                 }
 
-                req.user = user;
-                return next();
+                User.findOne({_id: userData._id}, function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    req.user = user;
+                    return next();
+                });
             });
         });
     };

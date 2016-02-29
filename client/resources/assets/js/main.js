@@ -16,7 +16,10 @@
             url: "http://localhost:55555/api/experiments",
             processData: false,
             contentType: 'text/html',
-            data: $('.editor').html()
+            data: {
+
+                content: $('.editor').html()
+            }
         });
     });
 })();

@@ -33,7 +33,7 @@
             required: 'Author is required'
         },
         file_id: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             unique: true,
             required: 'File ID is required'
         }
