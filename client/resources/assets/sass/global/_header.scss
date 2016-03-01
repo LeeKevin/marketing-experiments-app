@@ -10,9 +10,51 @@
   top: 0;
   right: 0;
   left: 0;
-  height: 52px;
+  height: $header-height;
   background: #fff;
   border-bottom: 1px solid #DDE4E7;
   transition: transform 0.2s ease-in-out;
   box-sizing: content-box;
+}
+
+#header {
+  .controls {
+    margin: 12px 23px 0 10px;
+
+    .hollow-button {
+      &.main {
+        border-color: $main-color;
+        color: $main-color;
+      }
+      &.black {
+        border-color: $body-color;
+        color: $body-color;
+      }
+    }
+
+    li + li {
+      margin-left: 10px;
+    }
+  }
+}
+
+.controls {
+  float: right;
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 11px;
+
+  li {
+    position: relative;
+    display: block;
+    float: left;
+  }
+}
+
+.title {
+  position: absolute;
+  font-family: $heading-font;
+  font-size: 20px;
+  line-height: $header-height;
+  padding: 0 1em;
 }

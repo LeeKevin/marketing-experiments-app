@@ -4,11 +4,18 @@
   word-wrap: break-word;
 }
 
+body, html {
+  height: 100%;
+}
+
 body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 300;
+  font-size: 16px;
   margin: 0;
+  color: $body-color;
+  background-color: #efefee;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 }
 
 [contenteditable] {
@@ -22,4 +29,104 @@ body {
   overflow: hidden;
 }
 
+#content {
+  height: 100%;
+  position: relative;
+  z-index: 590;
+  padding: ($header-height + 1px) 0 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+  margin: 0;
+}
+
+a {
+  color: $main-color;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
 @import "header";
+@import "buttons";
+
+.main-heading {
+  font: 28px/38px $heading-font;
+  text-align: center;
+  color: #485451;
+  text-transform: uppercase;
+  margin: 1em 0;
+}
+
+.content-section {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.content-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 0 0 20px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  p {
+    color: $faded-color;
+  }
+}
+
+.avatar {
+  color: #fff;
+  text-align: center;
+  position: relative;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  pointer-events: auto !important;
+  margin-right: 1em;
+}
+
+.byline {
+  margin: 0 0 1em;
+  font-family: $heading-font;
+  font-weight: bold;
+
+  .content-meta {
+    display: inline-block;
+    vertical-align: middle;
+
+    > a {
+      color: $body-color;
+    }
+
+    > a, span {
+      display: block;
+    }
+
+    .content-meta-date {
+      color: $faded-color;
+      font-size: 12px;
+    }
+  }
+}
+
+p {
+  line-height: 1.48em;
+  margin-top: 1.12em;
+  + p {
+    margin-bottom: 1.12em;
+  }
+}
