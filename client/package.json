@@ -6,14 +6,15 @@
   "dependencies": {
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
+    "backbone": "^1.2.3",
     "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
     "gulp-concat-filenames": "^1.1.1",
     "gulp-html-to-json": "~0.1.5",
     "jquery": "^2.2.0",
     "laravel-elixir": "^4.2.0",
+    "medium-editor": "~5.14.3",
     "mustache": "^2.2.1",
-    "normalize.css": "^3.0.3",
-    "medium-editor": "~5.14.3"
+    "normalize.css": "^3.0.3"
   }
 }

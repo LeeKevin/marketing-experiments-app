@@ -2,24 +2,19 @@
     'use strict';
 
     var $ = require('jquery'),
-        MediumEditor = require('medium-editor');
+        Backbone = require('backbone'),
+        AppRouter = require('./routes/routes')
+        //MediumEditor = require('medium-editor')
+        ;
 
-    var editor = new MediumEditor('.editor', {
-        buttonLabels: 'fontawesome'
-    });
+    Backbone.$ = $;
 
-    $('.save').bind('click', function (event) {
-        event.preventDefault();
+    //var editor = new MediumEditor('.editor', {
+    //    buttonLabels: 'fontawesome'
+    //});
 
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:55555/api/experiments",
-            processData: false,
-            contentType: 'text/html',
-            data: {
-
-                content: $('.editor').html()
-            }
-        });
+    $(document).ready(function () {
+        new AppRouter();
+        Backbone.history.start();
     });
 })();
