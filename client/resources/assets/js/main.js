@@ -3,8 +3,8 @@
 
     var $ = require('jquery'),
         Backbone = require('backbone'),
-        AppRouter = require('./routes/routes')
-        //MediumEditor = require('medium-editor')
+        App = require('./routes/routes')
+    //MediumEditor = require('medium-editor')
         ;
 
     Backbone.$ = $;
@@ -14,7 +14,6 @@
     //});
 
     $(document).ready(function () {
-        new AppRouter();
-        Backbone.history.start();
+        new App();
     });
 })();

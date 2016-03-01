@@ -1,0 +1,18 @@
+#header-wrapper {
+  position: absolute;
+  z-index: 705;
+  width: 100%;
+  transform: translateZ(0);
+}
+
+#header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 52px;
+  background: #fff;
+  border-bottom: 1px solid #DDE4E7;
+  transition: transform 0.2s ease-in-out;
+  box-sizing: content-box;
+}

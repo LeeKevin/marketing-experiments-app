@@ -132,4 +132,6 @@
             }
         }
     });
+    var loader = document.getElementById('jsloader');
+    loader.parentNode.removeChild(loader);
 })();

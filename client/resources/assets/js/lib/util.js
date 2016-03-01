@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    var Mustache = require('mustache'),
+    var Backbone = require('backbone'),
+        Mustache = require('mustache'),
         Partials = require('../../partials/partials');
 
     /**
@@ -17,6 +18,10 @@
 
             return Mustache.render(partial, params);
         },
+        getLocation: function () {
+            return window.location.protocol + '//' + window.location.host
+                + '/' + Backbone.history.options.root + Backbone.history.getFragment();
+        }
     };
 
 })();
