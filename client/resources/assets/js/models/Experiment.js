@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    var Backbone = require('backbone');
+    var Backbone = require('backbone'),
+        Util = require('../lib/util');
 
     module.exports = Backbone.Model.extend({
-        urlRoot: "", // TODO
-        idAttribute: "_id",
+        urlRoot: Util.getServerLocation('experiments'),
         initialize: function () {
 
         },

@@ -15,6 +15,6 @@
     "laravel-elixir": "^4.2.0",
     "medium-editor": "~5.14.3",
     "mustache": "^2.2.1",
-    "normalize.css": "^3.0.3"
+    "normalize.scss": "~0.1.0"
   }
 }

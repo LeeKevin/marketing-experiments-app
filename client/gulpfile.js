@@ -10,7 +10,6 @@ var assets_folder = './resources/assets';
 
 var style_file = public_styles_folder + '/app.css';
 var script_file = public_scripts_folder + '/app.js';
-var main_style = public_styles_folder + '/main.css';
 
 elixir.extend('partials', function () {
     new task('partials', function () {
@@ -28,16 +27,13 @@ elixir.extend('partials', function () {
 });
 
 elixir(function (mix) {
-    mix.partials()
-        .sass('main.scss', main_style)
-        .styles([
-            './node_modules/normalize.css/normalize.css',
-            main_style,
-        ], style_file)
+
+    mix
+        .partials()
+        .sass('main.scss', style_file)
         .browserify('main.js', script_file, null, {
-            paths: ['./node_modules', './resources/assets/js', './config'],
-            cache: {},
-            packageCache: {}
+            paths: ['./node_modules', './config'],
+            debug: true,
         })
         .version([style_file, script_file])
         .copy('./node_modules/font-awesome/fonts', './public/build/fonts')

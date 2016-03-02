@@ -4,16 +4,15 @@
     var Backbone = require('backbone'),
         $ = require('jquery'),
         HeaderView = require('../views/header'),
-        HomeView = require('../views/home');
+        HomeController = require('../controllers/HomeController');
 
     module.exports = Backbone.Router.extend({
         routes: {
             "": "home",
-            "test": "test"
         },
         container: $('#content'),
         initialize: function () {
-            this.headerView = new HeaderView({
+            new HeaderView({
                 el: $('#header')[0]
             });
 
@@ -28,14 +27,6 @@
 
             Backbone.history.start({pushState: true});
         },
-        home: function () {
-            if (!this.homeView) {
-                this.homeView = new HomeView();
-            }
-            this.container.html(this.homeView.el);
-        },
-        test: function () {
-            alert('test!');
-        }
+        home: HomeController.home,
     });
 })();
