@@ -10,10 +10,16 @@
             this.template = function (params) {
                 return Util.renderPartial('experiment-preview', params);
             };
-            this.render();
         },
         render: function () {
-            $(this.el).html(this.template(this.model.attributes));
+            var templateParameters = Util.recursiveMergeObjects(this.model.attributes, {
+                author: {
+                    initials: this.model.getAuthorInitials(),
+                    fullname: this.model.getAuthorName()
+                }
+            });
+
+            $(this.el).html(this.template(templateParameters));
             return this;
         }
     });

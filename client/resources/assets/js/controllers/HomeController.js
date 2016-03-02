@@ -1,18 +1,29 @@
 (function () {
     'use strict';
 
-    var $ = require('jquery'),
-        HomeView = require('../views/home'),
+    var HomeView = require('../views/home'),
         ExperimentList = require('../collections/ExperimentList');
 
     module.exports = {
         home: function () {
-            var models =  new ExperimentList;
-            models.fetch();
+            var _this = this;
             if (!this.homeView) {
-                this.homeView = new HomeView();
+                var experiments = new ExperimentList();
+                experiments.fetch({
+                    success: function () {
+                        _this.homeView = new HomeView({
+                            collection: experiments
+                        });
+                        _this.container.html(_this.homeView.render().el);
+                    },
+                    error: function (response) {
+                        console.error(response, "Error fetching Experiments from server.");
+                    }
+                });
+                return;
             }
-            this.container.html(this.homeView.el);
+
+            this.container.html(this.homeView.render().el);
         }
     };
 })();

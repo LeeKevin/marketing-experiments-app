@@ -33,7 +33,7 @@ elixir(function (mix) {
         .sass('main.scss', style_file)
         .browserify('main.js', script_file, null, {
             paths: ['./node_modules', './config'],
-            debug: true,
+            debug: !mix.production,
         })
         .version([style_file, script_file])
         .copy('./node_modules/font-awesome/fonts', './public/build/fonts')

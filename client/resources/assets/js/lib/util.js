@@ -71,6 +71,10 @@
         },
         escapeRegExp: function (str) {
             return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        },
+        recursiveMergeObjects: function () {
+            var deepExtend = $.extend.bind(this, true, {});
+            return deepExtend.apply(this, arguments);
         }
     };
 
