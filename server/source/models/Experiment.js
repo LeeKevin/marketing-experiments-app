@@ -37,7 +37,7 @@
             unique: true,
             required: 'File ID is required'
         }
-    });
+    }, {timestamps: true});
 
     module.exports = mongoose.model('Experiments', ExperimentSchema);
 })();

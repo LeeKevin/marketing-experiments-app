@@ -2,7 +2,8 @@
     'use strict';
 
     var Experiment = require('../models/Experiment'),
-        ExperimentRepository = require('../repositories/ExperimentRepository');
+        ExperimentRepository = require('../repositories/ExperimentRepository'),
+        Util = require('../util/util');
 
     var ExperimentsController = {
         /**
@@ -33,8 +34,9 @@
                         },
                         content: {
                             id: experiment.file_id,
-                            url: req.originalUrl + 'content'
-                        }
+                            url: Util.trim(req.originalUrl, '/') + '/' + experiment.id + '/content'
+                        },
+                        createdAt: experiment.createdAt
                     });
                 }
 
@@ -110,7 +112,7 @@
                     },
                     content: {
                         id: experiment.file_id,
-                        url: req.originalUrl + 'content'
+                        url: Util.trim(req.originalUrl, '/') + '/content'
                     }
                 });
             });

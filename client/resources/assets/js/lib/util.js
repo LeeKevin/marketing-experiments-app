@@ -12,10 +12,20 @@
      */
 
     module.exports = {
+        /**
+         * Retrieves the server location for a give uri.
+         * If an api property is provided in the server config, this is added to the returned url and safely ignored
+         * in the passed uri.
+         *
+         * @param uri
+         * @returns {string}
+         */
         getServerLocation: function (uri) {
+            var apiString = config['server']['api'] ? this.trim(config['server']['api'], '/') + '/' : '';
+
             return 'http://' + config['server']['url'] +
                 (config['server']['port'] ? ':' + config['server']['port'] : '') +
-                '/' + (config['server']['api'] ? this.trim(config['server']['api'], '/') + '/' : '') + uri;
+                '/' + apiString + this.trim(uri, apiString);
         },
         renderPartial: function (partial_name, params) {
             if (!Partials.hasOwnProperty(partial_name)) return '';
@@ -65,8 +75,9 @@
             }
             return Math.floor(seconds) + " seconds ago";
         },
-        trim: function (str, character) {
-            var escapedCharacter = this.escapeRegExp(character);
+        trim: function (str, character, escape) {
+            if (typeof escape === 'undefined') escape = true;
+            var escapedCharacter = escape  ? this.escapeRegExp(character) : character;
             return str.replace(new RegExp("^" + escapedCharacter + "+|" + escapedCharacter + "+$", "gm"), '');
         },
         escapeRegExp: function (str) {
@@ -75,6 +86,16 @@
         recursiveMergeObjects: function () {
             var deepExtend = $.extend.bind(this, true, {});
             return deepExtend.apply(this, arguments);
+        },
+        parseHtml: function (html) {
+            return html.replace(/<(?:.|\n)*?>/gm, '');
+        },
+        getSnippet: function (text, n) {
+            if (!this.isNumeric(n)) n = 50;
+            return text.replace(new RegExp("((\\s*\\S+){" + n + "})([\\s\\S]*)"), '$1...');
+        },
+        isNumeric: function (n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
         }
     };
 

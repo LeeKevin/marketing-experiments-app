@@ -10,13 +10,16 @@
             this.template = function (params) {
                 return Util.renderPartial('experiment-preview', params);
             };
+
+            this.model.on('change', this.render, this);
         },
         render: function () {
             var templateParameters = Util.recursiveMergeObjects(this.model.attributes, {
                 author: {
                     initials: this.model.getAuthorInitials(),
-                    fullname: this.model.getAuthorName()
-                }
+                    fullname: this.model.getAuthorName(),
+                },
+                timeSinceCreation: Util.timeSince(this.model.attributes.createdAt)
             });
 
             $(this.el).html(this.template(templateParameters));

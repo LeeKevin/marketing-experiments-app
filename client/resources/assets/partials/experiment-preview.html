@@ -4,11 +4,9 @@
 
     <div class="content-meta">
         <a>{{ author.fullname }}</a>
-        <span class="content-meta-date">Just now</span>
+        <span class="content-meta-date">{{ timeSinceCreation }}</span>
     </div>
 </div>
 <h2><a>{{ title }}</a></h2>
 
-<p>Alright, unlike the purpose of the experiment, my goal here is not to self promote. This is me just sharing with
-    you what I’ve learned, and the results of my experiment to determine the effectiveness of Reddit as an
-    acquisition channel...</p>
+<p class="{{^contentText}}content-placeholder{{/contentText}}">{{ contentText }}</p>

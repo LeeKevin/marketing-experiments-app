@@ -13,7 +13,14 @@
 
                 if (typeof callback === 'function') callback(key, obj[key]);
             }
-        }
+        },
+        trim: function (str, character) {
+            var escapedCharacter = this.escapeRegExp(character);
+            return str.replace(new RegExp("^" + escapedCharacter + "+|" + escapedCharacter + "+$", "gm"), '');
+        },
+        escapeRegExp: function (str) {
+            return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        },
     };
 
 })();
