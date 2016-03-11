@@ -17,8 +17,9 @@
 
     var UserSchema = new mongoose.Schema({
         name: {
-            first: {type: String, trim: true, required: 'First name is required'},
-            last: {type: String, trim: true, required: 'Last name is required'}
+            type: String,
+            trim: true,
+            required: 'Name is required'
         },
         password: {
             type: String,

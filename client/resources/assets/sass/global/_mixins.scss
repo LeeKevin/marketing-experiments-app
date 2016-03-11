@@ -1,0 +1,4 @@
+@mixin font-awesome-icon($content) {
+  content: $content;
+  font-family: FontAwesome;
+}

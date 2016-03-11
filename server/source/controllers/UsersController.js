@@ -25,8 +25,7 @@
         },
         create: function (req, res, next) {
             var user = new User();
-            user.name.first = req.body['firstname'];
-            user.name.last = req.body['lastname'];
+            user.name = req.body['name'];
             user.username = req.body['username'];
             user.password = req.body['password'];
             user.email = req.body['email'];
@@ -62,8 +61,7 @@
                     return next(err);
                 }
 
-                if (req.body['firstname']) user.name.first = req.body['firstname'];
-                if (req.body['lastname']) user.name.last = req.body['lastname'];
+                if (req.body['name']) user.name = req.body['name'];
                 if (req.body['username']) user.username = req.body['username'];
                 if (req.body['password']) user.password = req.body['password'];
                 if (req.body['email']) user.email = req.body['email'];

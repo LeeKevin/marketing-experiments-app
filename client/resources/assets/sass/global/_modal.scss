@@ -1,0 +1,38 @@
+.modal-overlay {
+  background: rgba(255,255,255,0.97);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-close {
+  color: #999;
+
+  &:before {
+    @include font-awesome-icon('\f057');
+    font-size: 2em;
+    position: absolute;
+    right: 1.75em;
+    top: 0.3em;
+  }
+}
+
+.modal-content {
+  max-width: 500px;
+  text-align: center;
+  p {
+    font-size: 1.1em;
+  }
+
+  p.info {
+    font-size: 0.75em;
+    color: #999;
+  }
+}

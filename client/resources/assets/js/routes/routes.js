@@ -8,7 +8,7 @@
 
     module.exports = Backbone.Router.extend({
         routes: {
-            "": "home",
+            "": "home"
         },
         container: $('#content'),
         initialize: function () {
@@ -27,6 +27,6 @@
 
             Backbone.history.start({pushState: true});
         },
-        home: HomeController.home,
+        home: HomeController.home
     });
 })();

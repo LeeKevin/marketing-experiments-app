@@ -12,6 +12,9 @@
     "bcrypt": "~0.8.5",
     "jsonwebtoken": "~5.7.0",
     "gridfs-stream": "~1.1.1",
-    "string-to-stream": "~1.0.1"
+    "string-to-stream": "~1.0.1",
+    "passport": "~0.3.2",
+    "passport-twitter": "~1.0.4",
+    "passport-facebook": "~2.1.0"
   }
 }
