@@ -20,6 +20,7 @@
 #header {
   .controls {
     margin: 12px 23px 0 10px;
+    user-select: none;
 
     .hollow-button {
       &.main {
@@ -32,7 +33,7 @@
       }
     }
 
-    li + li {
+    > li + li {
       margin-left: 10px;
     }
   }
@@ -44,7 +45,7 @@
   margin-top: 0;
   margin-bottom: 11px;
 
-  li {
+  > li {
     position: relative;
     display: block;
     float: left;
@@ -57,4 +58,43 @@
   font-size: 20px;
   line-height: $header-height;
   padding: 0 1em;
+  user-select: none;
+}
+
+.profile-button {
+  padding: .25em 1em;
+  display: inline-block;
+  user-select: none;
+}
+
+.profile-menu {
+  display: flex;
+  position: absolute;
+  top: 150%;
+  padding: .5em 0;
+  text-align: left;
+  right: .5em;
+  user-select: none;
+
+  ul {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.175);
+    border-radius: 5px;
+    background: #fff;
+    padding: 0.3em 0;
+    margin: 0;
+    list-style: none;
+    min-width: 150px;
+
+    li {
+      float: none;
+      white-space: nowrap;
+      padding: .3em 1em;
+      font-weight: 300;
+      cursor: pointer;
+      &:hover {
+        color: $darker-color;
+        background: $lightest-color;
+      }
+    }
+  }
 }

@@ -23,6 +23,10 @@
             $(this.el).html(this.template());
 
             this.$('.content-section').empty();
+            if (this.experimentPreviewViews.length == 0) {
+                _this.$('.content-section').append('There are no featured experiments!');
+                return this;
+            }
             $.each(this.experimentPreviewViews, function (i, view) {
                 $(view.el).addClass('content-box');
                 _this.$('.content-section').append(view.render().el);

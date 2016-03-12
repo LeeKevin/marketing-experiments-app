@@ -5,11 +5,13 @@
         $ = require('jquery'),
         Util = require('../lib/util'),
         LoginView = require('../views/login'),
+        ProfileMenuView = require('../views/profileMenu'),
         Session = require('../lib/session');
 
     module.exports = Backbone.View.extend({
         events: {
-            "click #login": "signup"
+            "click #login": "signup",
+            "click #profile": "profileMenu"
         },
         initialize: function () {
             this.template = function (params) {
@@ -19,6 +21,8 @@
             this.loginModal = new LoginView({
                 parent: $(this.el).closest('.layout')
             });
+
+            this.profileMenu = new ProfileMenuView();
 
             //Load existing user session
             var token;
@@ -31,7 +35,7 @@
                     success: function (user) {
                         this.render(user[0]);
                     }.bind(this),
-                    error: function (err) {
+                    error: function () {
                         this.render();
                     }.bind(this)
                 });
@@ -47,6 +51,12 @@
         },
         signup: function () {
             this.loginModal.show();
+        },
+        profileMenu: function () {
+            if (this.profileMenu.isVisible()) {
+                return this.profileMenu.hide();
+            }
+            this.profileMenu.show();
         }
     });
 })();

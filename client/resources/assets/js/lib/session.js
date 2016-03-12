@@ -16,6 +16,9 @@
             Cookies.remove('token');
             Cookies.set('token', token);
         },
+        end: function () {
+            Cookies.remove('token');
+        },
         twitterSignIn: function () {
             $.getJSON({
                 url: Util.getServerLocation('auth/twitter'),

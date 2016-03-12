@@ -2,7 +2,9 @@
 
 <ul class="controls">
     {{#user}}
-        <li>{{user.name}}</li>
+        <li>
+            <a id="profile" class="profile-button">{{user.name}}</a>
+        </li>
     {{/user}}
     {{^user}}
         <li><a id="login" class="hollow-button rounded main">Log In</a></li>
