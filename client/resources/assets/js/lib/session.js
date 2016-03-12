@@ -14,26 +14,16 @@
         },
         setToken: function (token) {
             Cookies.remove('token');
-            Cookies.set('token', token, {expires: 1});
+            Cookies.set('token', token);
         },
-        setUser: function (token) {
-            try {
-                var user = JSON.parse(Cookies.get('user'));
-            } catch (e) {
-                return false;
-            }
-            $.ajax({
-                url: Util.getServerLocation('users/' + user.user_id),
-                method: "GET",
-                headers: {"Authorization": 'Bearer ' + token},
-                success: function (user) {
-                    Cookies.set('user', user, {expires: 1});
+        twitterSignIn: function () {
+            $.getJSON({
+                url: Util.getServerLocation('auth/twitter'),
+                data: {callbackUrl: window.location.origin + '/twitter'},
+                success: function (res) {
+                    window.location.replace(res);
                 }
             });
-        },
-        setCookie: function (name, value, options) {
-            Cookies.remove(name);
-            Cookies.set(name, value, options);
         }
     };
 

@@ -3,7 +3,8 @@
 
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        Util = require('../lib/util');
+        Util = require('../lib/util'),
+        Session = require('../lib/session');
 
     module.exports = Backbone.View.extend({
         events: {
@@ -33,13 +34,7 @@
             $(this.el).detach();
         },
         twitter: function () {
-            $.getJSON({
-                url: Util.getServerLocation('auth/twitter'),
-                data: {callbackUrl: window.location.origin + '/twitter'},
-                success: function (res) {
-                    window.location.replace(res);
-                }
-            });
+            Session.twitterSignIn();
         }
     });
 })();

@@ -14,7 +14,8 @@
          * Be sure to copy the basic structure of this file.
          */
 
-        Route.get('/', UsersController.index);
+        Route.get('/', UsersController.me);
+        Route.get('/me', UsersController.index);
         Route.get('/:id', function (req, res, next) {
             var id = req.params.id;
             UsersController.show(req, res, id, next);

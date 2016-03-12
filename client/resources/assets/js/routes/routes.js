@@ -5,8 +5,7 @@
         $ = require('jquery'),
         HeaderView = require('../views/header'),
         HomeController = require('../controllers/HomeController'),
-        AuthController = require('../controllers/AuthController'),
-        Session = require('../lib/session');
+        AuthController = require('../controllers/AuthController');
 
     module.exports = Backbone.Router.extend({
         routes: {
@@ -15,10 +14,6 @@
         },
         container: $('#content'),
         initialize: function () {
-            new HeaderView({
-                el: $('#header')[0]
-            });
-
             // Forward to Backbone router instead of direct linking
             $(document).on("click", "a", (function (router) {
                 return function (e) {
@@ -30,11 +25,9 @@
 
             Backbone.history.start({pushState: true});
 
-            //Load exisiting user session
-            var token;
-            if (token = Session.getToken()) {
-                Session.setUser(token);
-            }
+            new HeaderView({
+                el: $('#header')[0]
+            });
         },
         home: HomeController.home,
         twitter: AuthController.twitter

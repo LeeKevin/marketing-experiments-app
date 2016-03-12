@@ -11,7 +11,6 @@
                 method: 'GET',
                 success: function (token) {
                     Session.setToken(token.access_token);
-                    Session.setCookie('user', {user_id: token.user_id}, {expires: 1});
                     window.location.replace(window.location.origin);
                 }
             });

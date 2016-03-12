@@ -4,7 +4,8 @@
     var Backbone = require('backbone'),
         $ = require('jquery'),
         Util = require('../lib/util'),
-        LoginView = require('../views/login');
+        LoginView = require('../views/login'),
+        Session = require('../lib/session');
 
     module.exports = Backbone.View.extend({
         events: {
@@ -19,10 +20,29 @@
                 parent: $(this.el).closest('.layout')
             });
 
-            this.render();
+            //Load existing user session
+            var token;
+            if (token = Session.getToken()) {
+                //load user
+                return $.ajax({
+                    url: Util.getServerLocation('users/me'),
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token},
+                    success: function (user) {
+                        this.render(user[0]);
+                    }.bind(this),
+                    error: function (err) {
+                        this.render();
+                    }.bind(this)
+                });
+            } else {
+                this.render();
+            }
         },
-        render: function () {
-            $(this.el).css('right', Util.getScrollBarWidth()).html(this.template());
+        render: function (user) {
+            $(this.el).css('right', Util.getScrollBarWidth()).html(this.template({
+                user: user
+            }));
             return this;
         },
         signup: function () {

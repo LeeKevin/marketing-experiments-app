@@ -69,6 +69,14 @@
                     message: 'User deleted!'
                 });
             });
+        },
+        me: function (req, res, next) {
+            res.status(200).json({
+                'user_id': req.user.id,
+                'name': req.user.name,
+                'username': req.user.username,
+                'email': req.user.email,
+            });
         }
     };
 

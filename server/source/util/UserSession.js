@@ -5,10 +5,17 @@
         config = require('../../config/auth')['token'],
         expiresIn = config.options.expiresIn || 0,
         UserSessionSchema,
-        statics;
+        statics,
+        activity;
+
+    activity = {
+        type: Date,
+        default: Date.now
+    };
+    if (expiresIn > 0) activity.expires = expiresIn;
 
     UserSessionSchema = new mongoose.Schema({
-        activity: {type: Date, expires: expiresIn, default: Date.now},
+        activity: activity,
         access_token: {type: String, required: true},
         user_id: {
             type: mongoose.Schema.Types.ObjectId,

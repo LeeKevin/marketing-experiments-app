@@ -1,5 +1,10 @@
 <div class="title">Marketing Experiments</div>
 
 <ul class="controls">
-    <li><a id="login" class="hollow-button rounded main">Log In</a></li>
+    {{#user}}
+        <li>{{user.name}}</li>
+    {{/user}}
+    {{^user}}
+        <li><a id="login" class="hollow-button rounded main">Log In</a></li>
+    {{/user}}
 </ul>
