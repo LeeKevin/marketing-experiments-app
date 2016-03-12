@@ -61,6 +61,59 @@
   user-select: none;
 }
 
+$plus-button-height: 24px;
+$plus-button-margin-top: 1px;
+.plus-button {
+  &::after {
+    content: '+';
+    display: inline-block;
+    font-weight: 300;
+    font-size: 1.4em;
+    border: #77A3E5 1px solid;
+    border-radius: 30px;
+    width: $plus-button-height;
+    height: $plus-button-height;
+    text-align: center;
+    line-height: $plus-button-height;
+    margin-top: $plus-button-margin-top;
+    transition: ease all .3s;
+    position: absolute;
+    right: 0;
+    background: #fff;
+  }
+
+  &:hover::after {
+    background: $main-color;
+    color: #fff;
+  }
+
+  &::before {
+    content: 'Add Experiment';
+    width: 0;
+    display: inline-block;
+    transition: ease all .3s;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #fff;
+    border: #77A3E5 1px solid;
+    background: #77A3E5;
+    border-radius: 30px;
+    visibility: hidden;
+    line-height: $plus-button-height - 1px;
+    padding: 0 15px 0 1em;
+    font-size: .8em;
+    height: $plus-button-height;
+    margin-top: $plus-button-margin-top;
+    position: absolute;
+    right: 3px;
+  }
+
+  &:hover::before {
+    width: 100px;
+    visibility: visible;
+  }
+}
+
 .profile-button {
   padding: .25em 1em;
   display: inline-block;

@@ -11,7 +11,7 @@
     module.exports = Backbone.View.extend({
         events: {
             "click #login": "signup",
-            "click #profile": "profileMenu"
+            "click #profile": "profileMenu",
         },
         initialize: function () {
             this.template = function (params) {
