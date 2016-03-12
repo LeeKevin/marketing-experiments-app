@@ -8,7 +8,8 @@
     module.exports = Backbone.View.extend({
         events: {
             "click": "hide",
-            "click .modal-close": "hide"
+            "click .modal-close": "hide",
+            "click #twitter-signin": "twitter"
         },
         initialize: function (attrs) {
             this.template = function (params) {
@@ -30,6 +31,15 @@
             }
 
             $(this.el).detach();
+        },
+        twitter: function () {
+            $.getJSON({
+                url: Util.getServerLocation('auth/twitter'),
+                data: {callbackUrl: window.location.origin + '/twitter'},
+                success: function (res) {
+                    window.location.replace(res);
+                }
+            });
         }
     });
 })();

@@ -1,20 +1,24 @@
 .button {
   position: relative;
-  border-radius: 16px;
-  height: 32px;
-  padding: 5px 15px;
+  border-radius: 3px;
+  height: 2.66em;
+  padding: 0.4em 1.25em;
   white-space: nowrap;
   font-family: $heading-font;
   transform: scale(2.0, 1.0);
   font-size: 12px;
   font-weight: bold;
-  line-height: 28px;
+  line-height: 2.33em;
   cursor: pointer;
   transition: all ease 0.4s;
   text-decoration: none;
 
   &:hover {
     opacity: 0.7;
+  }
+
+  &.rounded {
+    border-radius: 1.33em;
   }
 }
 
@@ -24,3 +28,27 @@
   border: 2px solid transparent;
 }
 
+.social {
+  &:before {
+    font-size: 2em;
+    position: absolute;
+    left: 0;
+    transform: translateX(75%);
+  }
+  font-size: .7em;
+  font-family: $body-font;
+  font-weight: 400;
+  padding: 0.7em 2em 0.7em 4em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.twitter {
+  @extend .social;
+
+  &:before {
+    @include font-awesome-icon('\f099');
+  }
+  background: #00aced;
+  border-color: #00aced;
+}

@@ -7,18 +7,14 @@
      */
 
     var methodOverride = require('method-override'),
-        bodyParser = require('body-parser'),
-        passport = require('passport')
-        ;
-
-    //configure passport
-    require('../util/passport')(passport);
+        bodyParser = require('body-parser');
 
     module.exports = function (app) {
         //CORS
         app.use(function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
+            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, HEAD, DELETE, OPTIONS');
+            res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
 
@@ -30,8 +26,6 @@
         }));
         app.use(bodyParser.json()); //populate req.body with parsed json
         app.use(bodyParser.text({type: 'text/html'})) //parse HTML body into a string
-
-        app.use(passport.initialize());
 
         //Might want to also include multer for multipart/form-data
     };

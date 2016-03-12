@@ -30,7 +30,7 @@
                 return next(new InvalidCredentialsError());
             }
 
-            JWT.verify(token, config['secret'], function (err, userData) {
+            JWT.verify(token, config.token.secret, function (err, userData) {
                 if (err) {
                     return next(new GenericError('Authentication Error', 500, 'There was an error verifying the provided token.'));
                 }

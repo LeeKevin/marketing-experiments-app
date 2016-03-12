@@ -10,7 +10,6 @@
     /**
      * Utility module for helper/miscellaneous methods.
      */
-
     module.exports = {
         /**
          * Retrieves the server location for a give uri.

@@ -23,24 +23,6 @@
                 res.status(200).json(usersArray);
             });
         },
-        create: function (req, res, next) {
-            var user = new User();
-            user.name = req.body['name'];
-            user.username = req.body['username'];
-            user.password = req.body['password'];
-            user.email = req.body['email'];
-
-            user.save(function (err, user) {
-                if (err) {
-                    return next(err);
-                }
-
-                res.status(201).json({
-                    message: 'User created!',
-                    user_id: user.id
-                });
-            });
-        },
         show: function (req, res, id, next) {
             User.findOne({'_id': id}, function (err, user) {
                 if (err) {
@@ -63,7 +45,6 @@
 
                 if (req.body['name']) user.name = req.body['name'];
                 if (req.body['username']) user.username = req.body['username'];
-                if (req.body['password']) user.password = req.body['password'];
                 if (req.body['email']) user.email = req.body['email'];
 
                 user.save(function (err, user) {

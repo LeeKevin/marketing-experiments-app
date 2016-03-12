@@ -7,6 +7,7 @@
 
     var express = require('express'),
         config = require('./config/app'),
+        auth = require('./config/auth'),
         database = require('./config/database'),
         mongoose = require('mongoose'),
         Grid = require('gridfs-stream'),
@@ -20,7 +21,7 @@
     db.once('open', function () {
         Grid.mongo = mongoose.mongo;
         app.set('gridfs', Grid(db.db));
-        app.set('auth', config['auth']);
+        app.set('auth', auth);
 
         require("./source/bootstrap")(app);
         var listener = app.listen(config['port'] || 5000, function () {

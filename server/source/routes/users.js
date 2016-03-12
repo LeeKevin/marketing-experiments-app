@@ -15,7 +15,6 @@
          */
 
         Route.get('/', UsersController.index);
-        Route.post('/', UsersController.create);
         Route.get('/:id', function (req, res, next) {
             var id = req.params.id;
             UsersController.show(req, res, id, next);

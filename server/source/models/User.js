@@ -21,10 +21,28 @@
             trim: true,
             required: 'Name is required'
         },
-        password: {
-            type: String,
-            trim: true,
-            required: 'Password is required'
+        local: {
+            password: {
+                type: String
+            },
+        },
+        twitter: {
+            id: {
+                type: String,
+                unique: true,
+            },
+            username: {
+                type: String,
+            }
+        },
+        facebook: {
+            id: {
+                type: String,
+                unique: true,
+            },
+            token: {
+                type: String,
+            }
         },
         username: {
             type: String,
@@ -45,25 +63,22 @@
 
     var methods = {
         //Use to test passwords against the actual hashed password
-        checkPassword: function (candidatePassword, cb) {
-            bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-                if (err) return cb(err);
-                cb(null, isMatch);
-            });
+        checkPassword: function (candidatePassword) {
+            return bcrypt.compareSync(candidatePassword, this.local.password);
         },
     };
 
     UserSchema.pre('save', function (next) {
         var user = this;
         // only hash the password if it has been modified (or is new)
-        if (!user.isModified('password')) return next();
+        if (!user.isModified('local.password')) return next();
 
         // generate a salt
         bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
             if (err) return next(err);
 
             // hash the password along with our new salt
-            bcrypt.hash(user.password, salt, function (err, hash) {
+            bcrypt.hash(user.local.password, salt, function (err, hash) {
                 if (err) return next(err);
 
                 // override the cleartext password with the hashed one

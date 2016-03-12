@@ -9,7 +9,7 @@ body, html {
 }
 
 body {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-family: $body-font;
   font-size: 16px;
   margin: 0;
   color: $body-color;

@@ -4,11 +4,14 @@
     var Backbone = require('backbone'),
         $ = require('jquery'),
         HeaderView = require('../views/header'),
-        HomeController = require('../controllers/HomeController');
+        HomeController = require('../controllers/HomeController'),
+        AuthController = require('../controllers/AuthController'),
+        Session = require('../lib/session');
 
     module.exports = Backbone.Router.extend({
         routes: {
-            "": "home"
+            "": "home",
+            "twitter": "twitter"
         },
         container: $('#content'),
         initialize: function () {
@@ -26,7 +29,14 @@
             })(this));
 
             Backbone.history.start({pushState: true});
+
+            //Load exisiting user session
+            var token;
+            if (token = Session.getToken()) {
+                Session.setUser(token);
+            }
         },
-        home: HomeController.home
+        home: HomeController.home,
+        twitter: AuthController.twitter
     });
 })();

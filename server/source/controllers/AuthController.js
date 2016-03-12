@@ -6,24 +6,28 @@
         JWT = require('jsonwebtoken');
 
     var AuthController = {
-        token: function (req, res, next) {
+        token: function (req, res) {
             var user, config, token, options, returnObj;
 
             //get current user
             user = req.user;
             config = req.app.get('auth');
-            options = config['options'] || {};
-            // create a token
-            token = JWT.sign({_id: user.id}, config['secret'], config['options']);
-            UserSession.store(token);
+            options = config.token.options || {};
+            //invalidate any old tokens
+            UserSession.invalidateByUser(user.id, function () {
+                // create a token
+                token = JWT.sign({_id: user.id}, config.token.secret, config.token.options);
+                UserSession.store(token, user.id);
 
-            returnObj = {
-                access_token: token,
-                token_type: 'bearer'
-            };
-            if (options['expiresIn']) returnObj.expiresIn = options['expiresIn'];
+                returnObj = {
+                    access_token: token,
+                    token_type: 'bearer',
+                    user_id: user.id
+                };
+                if (options['expiresIn']) returnObj.expiresIn = options['expiresIn'];
 
-            res.status(200).json(returnObj);
+                res.status(200).json(returnObj);
+            });
         },
     };
 

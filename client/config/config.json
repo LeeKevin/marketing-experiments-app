@@ -1,6 +1,6 @@
 {
   "server": {
-    "url": "localhost",
+    "url": "127.0.0.1",
     "port": 55555,
     "api": "api"
   }
