@@ -4,7 +4,7 @@
     var Backbone = require('backbone'),
         $ = require('jquery'),
         Util = require('../lib/util'),
-        ExperimentPreviewView = require('../views/experiment-preview');
+        ExperimentPreviewView = require('./experimentPreview');
 
     module.exports = Backbone.View.extend({
         initialize: function () {

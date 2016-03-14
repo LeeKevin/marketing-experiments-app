@@ -10,7 +10,7 @@
     module.exports = Backbone.Router.extend({
         routes: {
             "": "home",
-            "twitter": "twitter"
+            "twitter": "twitter",
         },
         container: $('#content'),
         initialize: function () {
