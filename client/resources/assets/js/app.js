@@ -11,8 +11,8 @@
 
     $(document).ready(function () {
         //load routes
-        new MainRouter();
         new ExperimentsRouter();
+        new MainRouter();
 
         //var editor = new MediumEditor('.editor', {
         //    buttonLabels: 'fontawesome'

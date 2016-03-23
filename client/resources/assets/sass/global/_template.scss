@@ -64,10 +64,16 @@ a {
   margin: 1em 0;
 }
 
-.content-section {
+.page-container {
   max-width: 750px;
-  margin: 0 auto;
+  margin: 3em auto;
+  display: block;
+}
+
+.content-section {
+  @extend .page-container;
   text-align: center;
+  margin-top: 1em;
 }
 
 .content-box {
